@@ -5,9 +5,12 @@ export const PRIORITIES = [
 ]
 
 export const STATUSES = [
+  { id:6,value: 'backlog', label: 'BackLog' },
   { id:1,value: 'todo', label: 'To do' },
   { id:2,value: 'in-progress', label: 'In progress' },
   { id:3,value: 'done', label: 'Done' },
+  { id:4,value: 'review', label: 'Review' },
+  { id:5,value: 'completed', label: 'Completed' },
 ]
 
 export const CATEGORIES = [
