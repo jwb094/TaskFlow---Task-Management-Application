@@ -4,11 +4,16 @@ export default function TaskColumn({
   title = "To do",
   count,
   children,
-  onAddTask,
+  isExpanded = false,
+  onToggleAddForm,
 }) {
   const headingId = useId();
   const taskCount = count ?? Children.count(children);
-
+  console.log({
+    title,
+    isExpanded,
+    hasToggleHandler: !!onToggleAddForm,
+  });
   return (
     <section
       className="task-column flex min-w-0 max-h-[calc(100dvh-12rem)] min-h-80 w-full flex-col overflow-hidden rounded-xl border border-slate-200 bg-slate-50"
@@ -27,12 +32,12 @@ export default function TaskColumn({
           </span>
         </div>
 
-        {onAddTask && (
+        {onToggleAddForm && (
           <button
             className="task-column__add-button inline-flex size-8 shrink-0 items-center justify-center rounded-lg text-slate-500 transition hover:bg-slate-100 hover:text-indigo-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             type="button"
             aria-label={`Add task to ${title}`}
-            onClick={onAddTask}
+            onClick={onToggleAddForm}
           >
             <svg
               className="task-column__add-icon size-5"
@@ -51,15 +56,22 @@ export default function TaskColumn({
         )}
       </header>
 
-      <div className="task-column__content flex 
+      <div
+        className="task-column__content flex 
       min-h-0 flex-1 flex-col gap-3 overflow-y-auto 
-      overscroll-y-contain p-3">
+      overscroll-y-contain p-3"
+      >
         {Children.count(children) > 0 ? (
           children
         ) : (
           <p className="task-column__empty rounded-lg border border-dashed border-slate-300 px-4 py-8 text-center text-sm text-slate-500">
             No tasks in this column yet.
           </p>
+        )}
+        {isExpanded && (
+          <>
+            <p className="text-black">TaskForm</p>
+          </>
         )}
       </div>
     </section>

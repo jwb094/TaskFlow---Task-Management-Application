@@ -28,7 +28,8 @@ export default function TaskBoard({ tasks, onAddTask }) {
               key={status.id}
               title={status.label}
               count={statusTasks.length}
-              onToggleAddForm={onAddTask ? () => handleExpandedColumn(status) : null}
+              onToggleAddForm={() => handleExpandedColumn(status)}
+              // onToggleAddForm={onAddTask ? () => handleExpandedColumn(status) : null}
               isExpanded={activeColumn === status.id}
             >
               {statusTasks.map((task) => (
