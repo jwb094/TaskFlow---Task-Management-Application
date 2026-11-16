@@ -12,6 +12,10 @@ export default function TaskBoard({ tasks, onAddTask }) {
       previousColumn === status.id ? null : status.id,
     );
   }
+  function handleCloseForm() {
+    setActiveColumn(null);
+  }
+  
 
   return (
     <section
@@ -22,15 +26,18 @@ export default function TaskBoard({ tasks, onAddTask }) {
       <div className="task-board__columns grid min-w-max grid-flow-col auto-cols-[18rem] items-start gap-5 lg:auto-cols-[16rem]">
         {STATUSES.map((status) => {
           const statusTasks = tasks.filter((task) => task.status === status.id);
-
+          
           return (
             <TaskColumn
               key={status.id}
               title={status.label}
+              status={status}
               count={statusTasks.length}
               onToggleAddForm={() => handleExpandedColumn(status)}
+              onAddTask={onAddTask}
               // onToggleAddForm={onAddTask ? () => handleExpandedColumn(status) : null}
               isExpanded={activeColumn === status.id}
+              onCloseForm={handleCloseForm}
             >
               {statusTasks.map((task) => (
                 <TaskCard key={task.id} task={task} />
