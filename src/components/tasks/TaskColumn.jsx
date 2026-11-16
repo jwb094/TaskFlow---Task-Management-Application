@@ -1,19 +1,29 @@
 import { Children, useId } from "react";
+import TaskForm from "./TaskForm";
 
 export default function TaskColumn({
-  title = "To do",
-  count,
-  children,
-  isExpanded = false,
-  onToggleAddForm,
+  
+  title = "To do",// Label displayed in the column header.
+  count,  // Number shown beside the title; falls back to the number of child tasks.
+  children,  // Task cards rendered inside the column.
+  isExpanded = false, // Controls whether the new-task form is visible.
+  onToggleAddForm, // Toggles the new-task form open or closed.
+  status,  // Status object used to set the status of a newly created task.
+  onAddTask,  // Callback called with the details of a newly created task.
+  onCloseForm,
+
 }) {
+  // Generate a unique heading ID for this column's accessible label.
   const headingId = useId();
+  // Use the provided task count, or count rendered task cards when it is omitted.
   const taskCount = count ?? Children.count(children);
-  console.log({
-    title,
-    isExpanded,
-    hasToggleHandler: !!onToggleAddForm,
-  });
+
+
+
+  function onCancel() {
+    onToggleAddForm();
+  }
+
   return (
     <section
       className="task-column flex min-w-0 max-h-[calc(100dvh-12rem)] min-h-80 w-full flex-col overflow-hidden rounded-xl border border-slate-200 bg-slate-50"
@@ -61,18 +71,21 @@ export default function TaskColumn({
       min-h-0 flex-1 flex-col gap-3 overflow-y-auto 
       overscroll-y-contain p-3"
       >
+          {isExpanded && (
+          <TaskForm
+            status={status}
+            onAddTask={onAddTask}
+            onCancel={onCloseForm}
+          />
+        )}
         {Children.count(children) > 0 ? (
           children
         ) : (
-          <p className="task-column__empty rounded-lg border border-dashed border-slate-300 px-4 py-8 text-center text-sm text-slate-500">
+         !isExpanded && (<p className="task-column__empty rounded-lg border border-dashed border-slate-300 px-4 py-8 text-center text-sm text-slate-500">
             No tasks in this column yet.
-          </p>
+          </p>)
         )}
-        {isExpanded && (
-          <>
-            <p className="text-black">TaskForm</p>
-          </>
-        )}
+      
       </div>
     </section>
   );
