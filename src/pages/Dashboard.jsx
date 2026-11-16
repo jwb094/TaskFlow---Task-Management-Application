@@ -4,10 +4,21 @@ import TaskBoard from "../components/tasks/TaskBoard";
 import initialTasks from "../data/initialTasks";
 export default function Dashboard() {
   const [tasks,setTasks] = useState(initialTasks);
-
+  
   function handleAddTask(newTask){
-    setTasks((previousTasks) => [...previousTasks,newTask])
+    setTasks((previousTasks)=>{
+      // Assign the new task an ID after the highest existing ID.
+      const nextId =  Math.max(0, ...previousTasks.map((task) => task.id)) + 1;
+
+      return [
+        ...previousTasks,{
+          ...newTask,
+          id:nextId
+        }
+      ]
+    })
   }
+
   return (
     <main
       className="dashboard__main flex w-full min-w-0 flex-1 flex-col lg:flex-row"
