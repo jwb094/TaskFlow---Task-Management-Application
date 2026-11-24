@@ -8,27 +8,31 @@ const fieldClassName =
 export default function TaskForm({
   // Status inherited from the column where the form was opened.
   status,
+  // Existing Task data for editing
+  initialTask,
   // Adds the completed task to the board.
   onAddTask,
   // Closes the form without creating a task.
   onCancel,
+  // Edit Completed Task Record from the board.
+  onUpdateTask,
 }) {
   const formId = useId();
   // Keep the editable field values together so one handler can update any field.
   const [task, setTask] = useState({
-    title: "",
-    description: "",
-    priority:"",
-    dueDate: "",
+    ...initialTask,
+    title: initialTask?.title ?? "",
+    description: initialTask?.description ?? "",
+    priority: initialTask?.priority ?? PRIORITIES[0].id,
+    dueDate: initialTask?.dueDate ?? "",
   });
-
   // Update only the field that triggered the change.
   function handleChange(event) {
     const { name, value } = event.target;
 
-      setTask((previousTask) => ({
+    setTask((previousTask) => ({
       ...previousTask,
-      [name] : name === "priority" ? Number(value):value
+      [name]: name === "priority" ? Number(value) : value,
     }));
   }
 
@@ -36,14 +40,19 @@ export default function TaskForm({
   function handleSubmit(event) {
     event.preventDefault();
 
-    
-    onAddTask({
+    if (initialTask) {
+       onUpdateTask({
       ...task,
-      status: status.id
-    });
+        id:initialTask.id,
+      });
+    } else {
+       onAddTask({
+      ...task,
+        status: status.id,
+      });
+    }
 
     onCancel();
-
   }
 
   return (
@@ -144,6 +153,7 @@ export default function TaskForm({
         <button
           className="rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           type="submit"
+          aria-label="Create task"
         >
           Create task
         </button>
