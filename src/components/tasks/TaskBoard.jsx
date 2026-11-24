@@ -1,10 +1,9 @@
-// import initialTasks from "../../data/initialTasks";
 import { useState } from "react";
 import { STATUSES } from "../../data/taskOptions";
 import TaskCard from "./TaskCard";
 import TaskColumn from "./TaskColumn";
 
-export default function TaskBoard({ tasks, onAddTask }) {
+export default function TaskBoard({ tasks, onAddTask,onUpdateTask }) {
   const [activeColumn, setActiveColumn] = useState(null);
 
   function handleExpandedColumn(status) {
@@ -35,12 +34,11 @@ export default function TaskBoard({ tasks, onAddTask }) {
               count={statusTasks.length}
               onToggleAddForm={() => handleExpandedColumn(status)}
               onAddTask={onAddTask}
-              // onToggleAddForm={onAddTask ? () => handleExpandedColumn(status) : null}
               isExpanded={activeColumn === status.id}
               onCloseForm={handleCloseForm}
             >
               {statusTasks.map((task) => (
-                <TaskCard key={task.id} task={task} />
+                <TaskCard key={task.id} task={task} onUpdateTask={onUpdateTask} />
               ))}
             </TaskColumn>
           );
