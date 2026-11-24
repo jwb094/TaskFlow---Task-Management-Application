@@ -11,6 +11,7 @@ export default function TaskColumn({
   status,  // Status object used to set the status of a newly created task.
   onAddTask,  // Callback called with the details of a newly created task.
   onCloseForm,
+  onUpdateTask
 
 }) {
   // Generate a unique heading ID for this column's accessible label.
@@ -76,6 +77,7 @@ export default function TaskColumn({
             status={status}
             onAddTask={onAddTask}
             onCancel={onCloseForm}
+            onUpdateTask={onUpdateTask}
           />
         )}
         {Children.count(children) > 0 ? (
