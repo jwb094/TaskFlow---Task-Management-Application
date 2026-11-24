@@ -3,7 +3,7 @@ import { STATUSES } from "../../data/taskOptions";
 import TaskCard from "./TaskCard";
 import TaskColumn from "./TaskColumn";
 
-export default function TaskBoard({ tasks, onAddTask,onUpdateTask }) {
+export default function TaskBoard({ tasks, onAddTask,onUpdateTask,onDeleteTask }) {
   const [activeColumn, setActiveColumn] = useState(null);
 
   function handleExpandedColumn(status) {
@@ -38,7 +38,11 @@ export default function TaskBoard({ tasks, onAddTask,onUpdateTask }) {
               onCloseForm={handleCloseForm}
             >
               {statusTasks.map((task) => (
-                <TaskCard key={task.id} task={task} onUpdateTask={onUpdateTask} />
+                <TaskCard key={task.id} 
+                task={task} 
+                onUpdateTask={onUpdateTask} 
+                onDeleteTask={onDeleteTask}
+                />
               ))}
             </TaskColumn>
           );
