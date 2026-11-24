@@ -153,9 +153,9 @@ export default function TaskForm({
         <button
           className="rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           type="submit"
-          aria-label="Create task"
+          aria-label={initialTask ? "Edit task" : "Create task"}
         >
-          Create task
+          {initialTask ? "Save changes" : "Create task"}
         </button>
       </div>
     </form>
