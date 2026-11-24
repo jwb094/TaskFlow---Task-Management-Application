@@ -8,7 +8,14 @@ const priorityClasses = {
   3: "bg-rose-50 text-rose-700",
 };
 
-export default function TaskCard({ task, onUpdateTask }) {
+export default function TaskCard({
+  // Card workflow: receives the task record to display and edit.
+  task,
+  // Update workflow: passes saved edits back to the board state.
+  onUpdateTask,
+  // Delete workflow: passes the task record to the board for removal.
+  onDeleteTask,
+}) {
   // Resolve display-only task metadata from the shared option lists.
   // Match stored IDs to the shared option data used by the board.
   const priority = PRIORITIES.find((item) => item.id === task.priority);
@@ -28,6 +35,11 @@ export default function TaskCard({ task, onUpdateTask }) {
   function handleEditClick() {
     setEditing((previousState) => !previousState);
   }
+
+  function handleDeleteClick(taskToBeDeleted) {
+    onDeleteTask(taskToBeDeleted);
+  }
+
   return (
     <article className="task-card rounded-lg border border-slate-200 bg-white p-4 shadow-sm transition hover:border-indigo-200 hover:shadow-md">
       {/* Editing workflow: switch to the form, then return to the card after saving or cancelling. */}
@@ -70,6 +82,7 @@ export default function TaskCard({ task, onUpdateTask }) {
                 <button
                   aria-label={`Delete ${task.title}`}
                   className="rounded-full"
+                  onClick={() => handleDeleteClick(task)}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
