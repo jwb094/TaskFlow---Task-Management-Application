@@ -33,6 +33,13 @@ export default function Dashboard() {
     );
   }
 
+  // Delete workflow: remove the selected task from the current task list.
+  function handleDeleteTask(taskToBeDeleted) {
+    setTasks((previousTasks) => 
+      previousTasks.filter((task) => task.id !== taskToBeDeleted.id)
+    );
+  }
+
   return (
     <main
       className="dashboard__main flex w-full min-w-0 flex-1 flex-col lg:flex-row"
@@ -55,6 +62,7 @@ export default function Dashboard() {
           tasks={tasks}
           onAddTask={handleAddTask}
           onUpdateTask={handleUpdateTask}
+          onDeleteTask={handleDeleteTask}
         />
       </div>
     </main>
